@@ -146,9 +146,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml  \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml
 
-PRODUCT_PACKAGES += oneplus-mock
-PRODUCT_BOOT_JARS += oneplus-mock
-
 # Boot control
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.0-impl:64 \
@@ -181,10 +178,6 @@ PRODUCT_PACKAGES += \
     cneapiclient \
     com.quicinc.cne \
     services-ext
-
-# CNE
-PRODUCT_PACKAGES += \
-    NgaResources
 
 # Common init scripts
 PRODUCT_PACKAGES += \
@@ -225,7 +218,12 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.cryptfshw@1.0.vendor
 
 # Dalvik vm configs
-$(call inherit-product, frameworks/native/build/phone-xhdpi-8192-dalvik-heap.mk)
+ifeq ($(TARGET_DEVICE),hotdogg)
+  $(call inherit-product, frameworks/native/build/phone-xhdpi-12288-dalvik-heap.mk)
+else
+  $(call inherit-product, frameworks/native/build/phone-xhdpi-8192-dalvik-heap.mk)
+endif
+
 
 # Display
 PRODUCT_PACKAGES += \
@@ -525,9 +523,3 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += \
     WfdCommon
-
-TARGET_HAS_FOD := true
-
-# Signing Keys
-PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/oss/keys/releasekey
-
